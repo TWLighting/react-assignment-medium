@@ -6,20 +6,29 @@
           <h6 class="mb-0">Org Management</h6>
         </template>
         <b-card-body>
-          <template v-for="(member, index) in this.members">
-            <b-row>
-              <b-col>
+          <template>
+            <b-row cols="1">
+              <b-col sm="2" md="2">
                 <b-form-group
                   label="org:"
                   label-for="org-title"
-                  label-cols-sm="3"
-                  label-align-sm="left"
+                  label-cols-sm="2"
+                  label-align-sm="right"
                 >
-                  <b-form-input id="org-title" v-model=""></b-form-input>
+                  <b-form-input id="org-title" sm="2" md="2"></b-form-input>
                 </b-form-group>
               </b-col>
               <b-col>
-                {{ member }}
+                <ul>
+                  <li class="d-flex align-items-center">
+                    <ul class="row-title d-flex align-items-center">
+                      <li class="li-title">users name:</li>
+                      <li class="li-title">age:</li>
+                      <li class="li-title">activated</li>
+                      <li class="li-title">representation</li>
+                    </ul>
+                  </li>
+                </ul>
               </b-col>
             </b-row>
           </template>
@@ -48,102 +57,39 @@ export default {
       console.log(i);
     }
   },
+  mounted() {
+    //非同步載入json資料
+    let self = this;
+    this.$http.get("orgs.json", {}).then(function (response) {
+      for (let row in response.data) {
+        self.list.push(response.data[row]);
+      }
+    });
+  } /*自動載入函式*/,
+  created() {
+    console.log(this.list);
+  },
   data() {
     return {
-      members: [
-        [
-          { name: "member-1", id: "member-1", age: 29, status: "activated" },
-          { name: "member-2", id: "member-2", age: 30, status: "inactivated" },
-          { name: "member-3", id: "member-3", age: 31, status: "activated" },
-          { name: "member-4", id: "member-4", age: 32, status: "inactivated" },
-          { name: "member-5", id: "member-5", age: 33, status: "activated" },
-          { name: "member-6", id: "member-6", age: 34, status: "inactivated" },
-          { name: "member-7", id: "member-7", age: 35, status: "activated" },
-          { name: "member-8", id: "member-8", age: 36, status: "inactivated" },
-          { name: "member-9", id: "member-9", status: "activated" },
-          {
-            name: "member-10",
-            id: "member-10",
-            age: 38,
-            status: "inactivated",
-          },
-        ],
-        [
-          { name: "member-11", id: "member-11", status: "activated" },
-          {
-            name: "member-12",
-            id: "member-12",
-            age: 40,
-            status: "inactivated",
-          },
-          { name: "member-13", id: "member-13", status: "activated" },
-          {
-            name: "member-14",
-            id: "member-14",
-            status: "inactivated",
-          },
-          { name: "member-15", id: "member-15", age: 43, status: "activated" },
-          {
-            name: "member-16",
-            id: "member-16",
-            age: 44,
-            status: "inactivated",
-          },
-          { name: "member-17", id: "member-17", age: 45, status: "activated" },
-          {
-            name: "member-18",
-            id: "member-18",
-            age: 46,
-            status: "inactivated",
-          },
-          { name: "member-19", id: "member-19", age: 47, status: "activated" },
-          {
-            name: "member-20",
-            id: "member-20",
-            age: 48,
-            status: "inactivated",
-          },
-          { name: "member-21", id: "member-21", age: 49, status: "activated" },
-          {
-            name: "member-22",
-            id: "member-22",
-            age: 50,
-            status: "inactivated",
-          },
-          { name: "member-23", id: "member-23", age: 51, status: "activated" },
-          {
-            name: "member-24",
-            id: "member-24",
-            status: "inactivated",
-          },
-          { name: "member-25", id: "member-25", age: 53, status: "activated" },
-          {
-            name: "member-26",
-            id: "member-26",
-            age: 54,
-            status: "inactivated",
-          },
-          { name: "member-27", id: "member-27", age: 55, status: "activated" },
-          {
-            name: "member-28",
-            id: "member-28",
-            age: 56,
-            status: "inactivated",
-          },
-          { name: "member-29", id: "member-29", age: 57, status: "activated" },
-          {
-            name: "member-30",
-            id: "member-30",
-            age: 58,
-            status: "inactivated",
-          },
-        ],
-      ],
+      list: [],
     };
   },
 };
 </script>
-
 <style>
-@import "./assets/sass/app.scss";
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.row-title {
+  width: 90%;
+  padding-bottom: 50px;
+}
+.li-title {
+  padding: 0 200px;
+}
 </style>
+
+
